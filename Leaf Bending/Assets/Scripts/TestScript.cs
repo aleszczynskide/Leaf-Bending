@@ -76,7 +76,7 @@ public class TestScript : MonoBehaviour
     {
         if (Distance < -2)
         {
-            float RotationSpeed = 1.0f;
+            float RotationSpeed = 0.5f;
             float TargetRotationAngle = Mathf.Atan2(-2.28f, 1) * 1.2f * Mathf.Rad2Deg;
             float CurrentRotation = Bone.transform.rotation.eulerAngles.z;
             float NewRotation = Mathf.LerpAngle(CurrentRotation, TargetRotationAngle, RotationSpeed * Time.deltaTime);
