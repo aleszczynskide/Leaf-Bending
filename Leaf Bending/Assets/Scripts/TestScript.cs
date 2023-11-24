@@ -32,8 +32,15 @@ public class TestScript : MonoBehaviour
     void Update()
     {
         UpdateMeshCollider();
+        if (Player == null)
+        {
+            LeafBendingReturn();
+        }
+        else if (Player != null)
+        {
+            LeafBendingByWalking();
+        }
     }
-
     void UpdateMeshCollider()
     {
         if (SMR != null && MeshCollider != null)
@@ -52,30 +59,37 @@ public class TestScript : MonoBehaviour
         RotateBones(Bone5);
         RotateBones(Bone6);
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Player = collision.gameObject;
-            Player.transform.SetParent(Bone6.transform);
-            LeafBendingByWalking();
-        }
-    }
-
     private void RotateBones(GameObject Bone)
     {
         Distance = (Pointer.transform.position.x - Player.transform.position.x);
 
         if (Distance < -2)
         {
-            float RotationSpeed = 3.0f;
+            float RotationSpeed = 1.0f;
             float TargetRotationAngle = Mathf.Atan2(Distance, 1) * 1.2f * Mathf.Rad2Deg;
             float CurrentRotation = Bone.transform.rotation.eulerAngles.z;
             float NewRotation = Mathf.LerpAngle(CurrentRotation, TargetRotationAngle, RotationSpeed * Time.deltaTime);
             Bone.transform.rotation = Quaternion.Euler(0, 0, NewRotation);
         }
-
-        Debug.Log(Distance);
+    }
+    private void RotateBonesReturn(GameObject Bone)
+    {
+        if (Distance < -2)
+        {
+            float RotationSpeed = 1.0f;
+            float TargetRotationAngle = Mathf.Atan2(-2.28f, 1) * 1.2f * Mathf.Rad2Deg;
+            float CurrentRotation = Bone.transform.rotation.eulerAngles.z;
+            float NewRotation = Mathf.LerpAngle(CurrentRotation, TargetRotationAngle, RotationSpeed * Time.deltaTime);
+            Bone.transform.rotation = Quaternion.Euler(0, 0, NewRotation);
+        }
+    }
+    private void LeafBendingReturn()
+    {
+        RotateBonesReturn(Bone1);
+        RotateBonesReturn(Bone2);
+        RotateBonesReturn(Bone3);
+        RotateBonesReturn(Bone4);
+        RotateBonesReturn(Bone5);
+        RotateBonesReturn(Bone6);
     }
 }
