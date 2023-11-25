@@ -63,14 +63,20 @@ public class TestScript : MonoBehaviour
     private void RotateBones(GameObject Bone)
     {
         Distance = Mathf.Abs(Pointer.transform.position.x - Player.transform.position.x) + Mathf.Abs(Pointer.transform.position.z - Player.transform.position.z);
+        Distance = (Distance / 4);
         Distance = -Distance;
+        Distance = Distance - Player.GetComponent<Player>().PlayerWeight;
         if (Distance < -2)
         {
             float RotationSpeed = 1.0f;
-            float TargetRotationAngle = Mathf.Atan2(Distance, 1) * 1.2f * Mathf.Rad2Deg;
+            float TargetRotationAngle = Mathf.Atan2(Distance,1) * 1.2f * Mathf.Rad2Deg;
             float CurrentRotation = Bone.transform.rotation.eulerAngles.z;
             float NewRotation = Mathf.LerpAngle(CurrentRotation, TargetRotationAngle, RotationSpeed * Time.deltaTime);
             Bone.transform.rotation = Quaternion.Euler(Bone.transform.rotation.eulerAngles.x, Bone.transform.rotation.eulerAngles.y, NewRotation);
+        }
+        else
+        {
+            LeafBendingReturn();
         }
     }
     private void RotateBonesReturn(GameObject Bone)

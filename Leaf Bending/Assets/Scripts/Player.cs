@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     private GameObject Leaf;
     RaycastHit Hit;
     public float Distance;
+    public int PlayerWeight;
     void Start()
     {
         Rb = GetComponent<Rigidbody>();
@@ -57,7 +58,15 @@ public class Player : MonoBehaviour
     }
     IEnumerator WaitForComeBack()
     {
-        yield return new WaitForSeconds(0.1f);
-        Distance = 1.1f;
+        if (PlayerWeight < 10)
+        {
+            yield return new WaitForSeconds(0.1f);
+            Distance = 1.1f;
+        }
+      else if (PlayerWeight > 10)
+        {
+            yield return new WaitForSeconds(0.2f);
+            Distance = 1.1f;
+        }
     }
 }

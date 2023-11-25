@@ -823,6 +823,7 @@ MonoBehaviour:
   PlayerSpeed: 5
   JumpForce: 8
   Distance: 1.1
+  PlayerWeight: 2
 --- !u!136 &2082586491
 CapsuleCollider:
   m_ObjectHideFlags: 0
