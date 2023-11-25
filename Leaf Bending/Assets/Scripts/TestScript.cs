@@ -12,7 +12,7 @@ public class TestScript : MonoBehaviour
     private MeshCollider MeshCollider;
     [SerializeField] public GameObject Pointer, Player;
     [SerializeField] public GameObject Bone1, Bone2, Bone3, Bone4, Bone5, Bone6;
-    private float Distance;
+    private float Distance,Checker;
 
     void Start()
     {
@@ -31,6 +31,7 @@ public class TestScript : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(Distance);
         UpdateMeshCollider();
         if (Player == null)
         {
@@ -61,27 +62,24 @@ public class TestScript : MonoBehaviour
     }
     private void RotateBones(GameObject Bone)
     {
-        Distance = (Pointer.transform.position.x - Player.transform.position.x);
-
+        Distance = Mathf.Abs(Pointer.transform.position.x - Player.transform.position.x) + Mathf.Abs(Pointer.transform.position.z - Player.transform.position.z);
+        Distance = -Distance;
         if (Distance < -2)
         {
             float RotationSpeed = 1.0f;
             float TargetRotationAngle = Mathf.Atan2(Distance, 1) * 1.2f * Mathf.Rad2Deg;
             float CurrentRotation = Bone.transform.rotation.eulerAngles.z;
             float NewRotation = Mathf.LerpAngle(CurrentRotation, TargetRotationAngle, RotationSpeed * Time.deltaTime);
-            Bone.transform.rotation = Quaternion.Euler(0, 0, NewRotation);
+            Bone.transform.rotation = Quaternion.Euler(Bone.transform.rotation.eulerAngles.x, Bone.transform.rotation.eulerAngles.y, NewRotation);
         }
     }
     private void RotateBonesReturn(GameObject Bone)
     {
-        if (Distance < -2)
-        {
-            float RotationSpeed = 0.5f;
-            float TargetRotationAngle = Mathf.Atan2(-2.28f, 1) * 1.2f * Mathf.Rad2Deg;
-            float CurrentRotation = Bone.transform.rotation.eulerAngles.z;
-            float NewRotation = Mathf.LerpAngle(CurrentRotation, TargetRotationAngle, RotationSpeed * Time.deltaTime);
-            Bone.transform.rotation = Quaternion.Euler(0, 0, NewRotation);
-        }
+        float RotationSpeed = 0.5f;
+        float TargetRotationAngle = Mathf.Atan2(-2.28f, 1) * 1.2f * Mathf.Rad2Deg;
+        float CurrentRotation = Bone.transform.rotation.eulerAngles.z;
+        float NewRotation = Mathf.LerpAngle(CurrentRotation, TargetRotationAngle, RotationSpeed * Time.deltaTime);
+        Bone.transform.rotation = Quaternion.Euler(Bone.transform.rotation.eulerAngles.x, Bone.transform.rotation.eulerAngles.y, NewRotation);
     }
     private void LeafBendingReturn()
     {

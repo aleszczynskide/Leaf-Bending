@@ -33,10 +33,8 @@ public class Player : MonoBehaviour
         {
             if (Hit.collider.CompareTag("Leaf"))
             {
-                Debug.Log("Liœæ");
                 Leaf = Hit.collider.gameObject;
                 Leaf.GetComponent<TestScript>().Player = this.gameObject;
-                this.transform.SetParent(Leaf.GetComponent<TestScript>().Bone1.transform);
                 Distance = 2;
             }
             else
