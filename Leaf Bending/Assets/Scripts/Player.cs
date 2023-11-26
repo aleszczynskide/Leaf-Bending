@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public int PlayerWeight;
     public float Falling;
     private bool IsFalling;
+    private bool IsGrounded;
     void Start()
     {
         Rb = GetComponent<Rigidbody>();
@@ -27,12 +28,23 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.S)) MoveDirection.z = +1;
         if (Input.GetKey(KeyCode.A)) MoveDirection.x = +1;
         if (Input.GetKey(KeyCode.D)) MoveDirection.x = -1;
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
         {
             StartCoroutine(WaitForComeBack());
             Rb.velocity = new Vector3(0, +JumpForce, 0);
         }
         transform.position += MoveDirection * PlayerSpeed * Time.deltaTime;
+        if (Physics.Raycast(transform.position, Vector3.down, out Hit, 1.2f))
+        {
+            if (Hit.collider.CompareTag("Leaf") || (Hit.collider.CompareTag("Ground")))
+            {
+                IsGrounded = true;
+            }
+        }
+        else
+        {
+            IsGrounded = false;
+        }
         if (Physics.Raycast(transform.position, Vector3.down, out Hit, Distance))
         {
             if (Hit.collider.CompareTag("Leaf"))
@@ -51,6 +63,7 @@ public class Player : MonoBehaviour
             }
             else
             {
+                Falling = 0;
                 if (Leaf != null)
                 {
                     Leaf.GetComponent<TestScript>().Player = null;
@@ -81,7 +94,7 @@ public class Player : MonoBehaviour
                 Leaf.GetComponent<TestScript>().IsRotating = false;
             }
         }
-      else if (PlayerWeight > 7)
+        else if (PlayerWeight > 7)
         {
             yield return new WaitForSeconds(0.2f);
             Distance = 1.1f;

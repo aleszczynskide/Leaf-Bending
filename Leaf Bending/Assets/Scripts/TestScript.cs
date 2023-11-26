@@ -134,6 +134,13 @@ public class TestScript : MonoBehaviour
                     IsRotating = false;
                     Debug.Log("Piczq3");
                 }
+                if (MinValue < (MaxValue * 1.6f) && TimesOfBending < 3)
+                {
+                  if (Player == null)
+                    {
+                        IsRotating = false;
+                    }
+                }
                 else if (MinValue < (MaxValue * 1.8f))
                 {
                     IsNegative = false;
@@ -148,6 +155,10 @@ public class TestScript : MonoBehaviour
                 MinValue += Time.deltaTime;
                 if (MinValue > (MaxValue * 0.75f))
                 {
+                    if (Player == null)
+                    {
+                        IsRotating = false;
+                    }
                     IsNegative = true;
                     TimesOfBending--;
                     Debug.Log("Piczq2");

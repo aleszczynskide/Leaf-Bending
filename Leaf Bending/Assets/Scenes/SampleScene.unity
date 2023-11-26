@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 457467829}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -398,6 +398,9 @@ MonoBehaviour:
   Bone4: {fileID: 1387207657}
   Bone5: {fileID: 1387207656}
   Bone6: {fileID: 1387207655}
+  MaxValue: 0
+  Landed: 0
+  IsRotating: 0
 --- !u!64 &739889785
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -824,6 +827,7 @@ MonoBehaviour:
   JumpForce: 8
   Distance: 1.1
   PlayerWeight: 2
+  Falling: 0
 --- !u!136 &2082586491
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -906,7 +910,7 @@ Transform:
   m_GameObject: {fileID: 2082586489}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.91, y: 6.56, z: 13.99}
+  m_LocalPosition: {x: 11.91, y: 13.42, z: 13.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
