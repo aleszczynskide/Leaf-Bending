@@ -19,6 +19,7 @@ public class TestScript : MonoBehaviour
     public bool IsRotating;
     private int TimesOfBending;
     private bool IsNegative;
+    private float RotationSpeed = 0.5f;
 
     void Start()
     {
@@ -40,7 +41,7 @@ public class TestScript : MonoBehaviour
         if (Player != null)
         {
             Distance = Mathf.Abs(Pointer.transform.position.x - Player.transform.position.x) + Mathf.Abs(Pointer.transform.position.z - Player.transform.position.z);
-            Distance = (Distance /4);
+            Distance = (Distance / 4);
             Distance = -Distance;
             Distance = Distance - Player.GetComponent<Player>().PlayerWeight;
         }
@@ -80,7 +81,7 @@ public class TestScript : MonoBehaviour
     {
         if (Distance < -2)
         {
-            float RotationSpeed = 0.5f;
+            RotationSpeed = 0.5f;
             float TargetRotationAngle = Mathf.Atan2(Distance, 1) * 1.2f * Mathf.Rad2Deg;
             float CurrentRotation = Bone.transform.rotation.eulerAngles.z;
             float NewRotation = Mathf.LerpAngle(CurrentRotation, TargetRotationAngle, RotationSpeed * Time.deltaTime);
@@ -93,7 +94,6 @@ public class TestScript : MonoBehaviour
     }
     private void RotateBonesReturn(GameObject Bone)
     {
-        float RotationSpeed = 0.1f;
         float TargetRotationAngle = Mathf.Atan2(-2.28f, 1) * 1.2f * Mathf.Rad2Deg;
         float CurrentRotation = Bone.transform.rotation.eulerAngles.z;
         float NewRotation = Mathf.LerpAngle(CurrentRotation, TargetRotationAngle, RotationSpeed * Time.deltaTime);
@@ -121,29 +121,37 @@ public class TestScript : MonoBehaviour
     {
         if (TimesOfBending > 0)
         {
-            float RotationSpeed = 2f;
+            RotationSpeed = 2f;
             float TargetRotationAngle = Mathf.Atan2(MinValue, 1) * 1.2f * Mathf.Rad2Deg;
             float CurrentRotation = Bone.transform.rotation.eulerAngles.z;
             float NewRotation = Mathf.LerpAngle(CurrentRotation, TargetRotationAngle, RotationSpeed * Time.deltaTime);
             Bone.transform.rotation = Quaternion.Euler(Bone.transform.rotation.eulerAngles.x, Bone.transform.rotation.eulerAngles.y, NewRotation);
-            if (!IsNegative)
+            if (IsNegative)
             {
                 MinValue -= Time.deltaTime;
-                if (MinValue < (MaxValue - 3f ))
+                if (MinValue < (MaxValue * 1.4f) && TimesOfBending < 3)
                 {
-                    MaxValue = MinValue;
-                    IsNegative = true;
-                    TimesOfBending--;
+                    IsRotating = false;
+                    Debug.Log("Piczq3");
                 }
-            }
-            else if (IsNegative)
-            {
-                MinValue += Time.deltaTime;
-                if (MinValue > (MaxValue + 0.2f))
+                else if (MinValue < (MaxValue * 1.8f))
                 {
-                    MaxValue = MinValue;
                     IsNegative = false;
                     TimesOfBending--;
+                    Debug.Log("Piczq1");
+                    RotationSpeed = 1.5f;
+                    return;
+                }
+            }
+            else if (!IsNegative)
+            {
+                MinValue += Time.deltaTime;
+                if (MinValue > (MaxValue * 0.75f))
+                {
+                    IsNegative = true;
+                    TimesOfBending--;
+                    Debug.Log("Piczq2");
+                    RotationSpeed = 1f;
                 }
             }
         }
