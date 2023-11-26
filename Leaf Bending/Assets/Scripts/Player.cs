@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class Player : MonoBehaviour
     RaycastHit Hit;
     public float Distance;
     public int PlayerWeight;
+    public float Falling;
+    private bool IsFalling;
     void Start()
     {
         Rb = GetComponent<Rigidbody>();
@@ -36,7 +39,15 @@ public class Player : MonoBehaviour
             {
                 Leaf = Hit.collider.gameObject;
                 Leaf.GetComponent<TestScript>().Player = this.gameObject;
-                Distance = 2;
+                if (IsFalling == true)
+                {
+                    Leaf.GetComponent<TestScript>().Landed = Falling;
+                    Leaf.GetComponent<TestScript>().SetMaxValue();
+                    Leaf.GetComponent<TestScript>().IsRotating = true;
+                    IsFalling = false;
+                }
+                Falling = 0;
+                Distance = 8;
             }
             else
             {
@@ -44,6 +55,7 @@ public class Player : MonoBehaviour
                 {
                     Leaf.GetComponent<TestScript>().Player = null;
                     Leaf = null;
+                    StartCoroutine(WaitForComeBack());
                 }
             }
         }
@@ -54,7 +66,9 @@ public class Player : MonoBehaviour
                 Leaf.GetComponent<TestScript>().Player = null;
                 Leaf = null;
             }
+            Falling += Time.deltaTime;
         }
+        if (Falling > 0.5f) IsFalling = true;
     }
     IEnumerator WaitForComeBack()
     {
@@ -62,11 +76,19 @@ public class Player : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
             Distance = 1.1f;
+            if (Leaf != null)
+            {
+                Leaf.GetComponent<TestScript>().IsRotating = false;
+            }
         }
-      else if (PlayerWeight > 10)
+      else if (PlayerWeight > 7)
         {
             yield return new WaitForSeconds(0.2f);
             Distance = 1.1f;
+            if (Leaf != null)
+            {
+                Leaf.GetComponent<TestScript>().IsRotating = false;
+            }
         }
     }
 }
