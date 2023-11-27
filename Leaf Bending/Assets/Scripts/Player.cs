@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     private GameObject Leaf;
     RaycastHit Hit;
     public float Distance;
-    public int PlayerWeight;
+    public float PlayerWeight;
     public float Falling;
     private bool IsFalling;
     private bool IsGrounded;
@@ -55,7 +55,6 @@ public class Player : MonoBehaviour
                     Leaf.GetComponent<TestScript>().Player = this.gameObject;
                     if (IsFalling == true)
                     {
-                        Leaf.GetComponent<TestScript>().Landed = Falling;
                         Leaf.GetComponent<TestScript>().SetMaxValue();
                         Leaf.GetComponent<TestScript>().IsRotating = true;
                         IsFalling = false;
@@ -91,7 +90,7 @@ public class Player : MonoBehaviour
         if (PlayerWeight < 10)
         {
             yield return new WaitForSeconds(0.1f);
-            Distance = 1.1f;
+            Distance = 1.2f;
             if (Leaf != null)
             {
                 Leaf.GetComponent<TestScript>().IsRotating = false;
@@ -100,7 +99,7 @@ public class Player : MonoBehaviour
         else if (PlayerWeight > 7)
         {
             yield return new WaitForSeconds(0.2f);
-            Distance = 1.1f;
+            Distance = 1.2f;
             if (Leaf != null)
             {
                 Leaf.GetComponent<TestScript>().IsRotating = false;
