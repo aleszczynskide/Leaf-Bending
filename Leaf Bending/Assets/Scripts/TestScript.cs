@@ -20,6 +20,7 @@ public class TestScript : MonoBehaviour
     private bool IsNegative;
     private float RotationSpeed = 0.5f;
     private float RotateComeBack;
+    private float Landed;
 
     void Start()
     {
@@ -125,7 +126,7 @@ public class TestScript : MonoBehaviour
         {
             if (MaxValue < -3)
             {
-                RotationSpeed = Player.GetComponent<Player>().PlayerWeight / 4;
+                RotationSpeed = Landed / 4;
                 float TargetRotationAngle = Mathf.Atan2(MinValue, 1) * 1.2f * Mathf.Rad2Deg;
                 float CurrentRotation = Bone.transform.rotation.eulerAngles.z;
                 float NewRotation = Mathf.LerpAngle(CurrentRotation, TargetRotationAngle, RotationSpeed * Time.deltaTime);
@@ -148,7 +149,7 @@ public class TestScript : MonoBehaviour
                     {
                         IsNegative = false;
                         TimesOfBending--;
-                        RotationSpeed = Player.GetComponent<Player>().PlayerWeight / 6;
+                        RotationSpeed = Landed / 6;
                         return;
                     }
                 }
@@ -187,5 +188,6 @@ public class TestScript : MonoBehaviour
         MinValue = MaxValue;
         TimesOfBending = 3;
         IsNegative = true;
+        Landed = Player.GetComponent<Player>().PlayerWeight;
     }
 }

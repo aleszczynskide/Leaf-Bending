@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
                 {
                     Leaf = Hit.collider.gameObject;
                     Leaf.GetComponent<TestScript>().Player = this.gameObject;
+                    this.transform.SetParent(Leaf.GetComponent<TestScript>().Bone6.transform);
                     if (IsFalling == true)
                     {
                         Leaf.GetComponent<TestScript>().SetMaxValue();
