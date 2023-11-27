@@ -49,17 +49,20 @@ public class Player : MonoBehaviour
         {
             if (Hit.collider.CompareTag("Leaf"))
             {
-                Leaf = Hit.collider.gameObject;
-                Leaf.GetComponent<TestScript>().Player = this.gameObject;
-                if (IsFalling == true)
+                if (Rb.velocity.y < -0.5f)
                 {
-                    Leaf.GetComponent<TestScript>().Landed = Falling;
-                    Leaf.GetComponent<TestScript>().SetMaxValue();
-                    Leaf.GetComponent<TestScript>().IsRotating = true;
-                    IsFalling = false;
+                    Leaf = Hit.collider.gameObject;
+                    Leaf.GetComponent<TestScript>().Player = this.gameObject;
+                    if (IsFalling == true)
+                    {
+                        Leaf.GetComponent<TestScript>().Landed = Falling;
+                        Leaf.GetComponent<TestScript>().SetMaxValue();
+                        Leaf.GetComponent<TestScript>().IsRotating = true;
+                        IsFalling = false;
+                    }
+                    Falling = 0;
+                    Distance = 8;
                 }
-                Falling = 0;
-                Distance = 8;
             }
             else
             {
@@ -81,7 +84,7 @@ public class Player : MonoBehaviour
             }
             Falling += Time.deltaTime;
         }
-        if (Falling > 0.5f) IsFalling = true;
+        if (Falling > 1f) IsFalling = true;
     }
     IEnumerator WaitForComeBack()
     {
