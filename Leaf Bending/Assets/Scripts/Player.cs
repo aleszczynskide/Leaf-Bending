@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
+    public PlayerSO PlayerSO;
     [SerializeField] private int PlayerSpeed, JumpForce;  //Player Speed Int and jumppower
     Rigidbody Rb;
     private GameObject Leaf;
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
     void Update()
 
     {
+
         //Player Movement Script
         Vector3 MoveDirection = new Vector3(0, 0, 0);
 
@@ -106,5 +108,9 @@ public class Player : MonoBehaviour
                 Leaf.GetComponent<TestScript>().IsRotating = false;
             }
         }
+    }
+    private void CreatePlayer()
+    {
+        PlayerWeight = PlayerSO.PlayerWeight;
     }
 }

@@ -8,12 +8,13 @@ using UnityEngine;
 [RequireComponent(typeof(MeshCollider))]
 public class TestScript : MonoBehaviour
 {
+    public PlayerSO Leaf;
     private SkinnedMeshRenderer SMR;
     private MeshCollider MeshCollider;
     public GameObject Pointer, Player;
     public GameObject Bone1, Bone2, Bone3, Bone4, Bone5, Bone6;
     private float Distance;
-    public float MaxValue;
+    private float MaxValue;
     private float MinValue;
     public bool IsRotating;
     private int TimesOfBending;
@@ -21,9 +22,11 @@ public class TestScript : MonoBehaviour
     private float RotationSpeed = 0.5f;
     private float RotateComeBack;
     private float Landed;
+    private int Bending;
 
     void Start()
     {
+        CreateLeaf();
         SMR = GetComponent<SkinnedMeshRenderer>();
         MeshCollider = GetComponent<MeshCollider>();
 
@@ -42,7 +45,7 @@ public class TestScript : MonoBehaviour
         if (Player != null)
         {
             Distance = Mathf.Abs(Pointer.transform.position.x - Player.transform.position.x) + Mathf.Abs(Pointer.transform.position.z - Player.transform.position.z);
-            Distance = (Distance / 4);
+            Distance = (Distance / Bending);
             Distance = -Distance;
             Distance = Distance * Player.GetComponent<Player>().PlayerWeight;
             RotateComeBack = Player.GetComponent<Player>().PlayerWeight;
@@ -156,7 +159,7 @@ public class TestScript : MonoBehaviour
                 else if (!IsNegative)
                 {
                     MinValue += Time.deltaTime;
-                    if (MinValue > (MaxValue * 0.75f))
+                    if (MinValue > (MaxValue * 0.6f))
                     {
                         if (Player == null)
                         {
@@ -164,7 +167,7 @@ public class TestScript : MonoBehaviour
                         }
                         IsNegative = true;
                         TimesOfBending--;
-                        RotationSpeed = 1f;
+                        RotationSpeed = 0.6f / RotateComeBack;
                     }
                 }
             }
@@ -181,7 +184,7 @@ public class TestScript : MonoBehaviour
     public void SetMaxValue()
     {
         Distance = Mathf.Abs(Pointer.transform.position.x - Player.transform.position.x) + Mathf.Abs(Pointer.transform.position.z - Player.transform.position.z);
-        Distance = (Distance / 4);
+        Distance = (Distance / Bending);
         Distance = -Distance;
         Distance = Distance - Player.GetComponent<Player>().PlayerWeight;
         MaxValue = Distance;
@@ -189,5 +192,9 @@ public class TestScript : MonoBehaviour
         TimesOfBending = 3;
         IsNegative = true;
         Landed = Player.GetComponent<Player>().PlayerWeight;
+    }
+    void CreateLeaf()
+    {
+        Bending = Leaf.Bending;
     }
 }
