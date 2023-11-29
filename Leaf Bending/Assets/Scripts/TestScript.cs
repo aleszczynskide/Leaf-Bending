@@ -99,7 +99,7 @@ public class TestScript : MonoBehaviour
     }
     private void RotateBonesReturn(GameObject Bone)
     {
-        RotationSpeed = 0.6f / RotateComeBack;
+        RotationSpeed = Landed / 6;
         float TargetRotationAngle = Mathf.Atan2(-2.28f, 1) * 1.2f * Mathf.Rad2Deg;
         float CurrentRotation = Bone.transform.rotation.eulerAngles.z;
         float NewRotation = Mathf.LerpAngle(CurrentRotation, TargetRotationAngle, RotationSpeed * Time.deltaTime);
